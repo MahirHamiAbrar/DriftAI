@@ -1,0 +1,18 @@
+{
+    "audio": {
+        "recorder": {
+            "channels": 2,
+            "rate": 44100,
+            "chunk-size": 1024,
+            "sampling-format": "i16",
+            "available-sampling-formats": [
+                "i8", "i16", "i24", "i32", "f32"
+            ],
+            "recording-format": "mp3",
+            "available-recording-formats": [
+                "wav", "mp3"
+            ],
+            "output-dir": "data/audio_recordings"
+        }
+    }
+}
