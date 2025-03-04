@@ -1,18 +1,24 @@
 {
+    "data_dir": "data",
+    
     "audio": {
         "recorder": {
             "channels": 2,
             "rate": 44100,
-            "chunk-size": 1024,
-            "sampling-format": "i16",
-            "available-sampling-formats": [
+            "chunk_size": 1024,
+            "sampling_format": "i16",
+            "available_sampling_formats": [
                 "i8", "i16", "i24", "i32", "f32"
             ],
-            "recording-format": "mp3",
-            "available-recording-formats": [
+            "recording_format": "mp3",
+            "available_recording_formats": [
                 "wav", "mp3"
             ],
-            "output-dir": "data/audio_recordings"
+            "output_dir": "{data_dir}/audio_recordings"
         }
+    },
+
+    "logging": {
+        "log_dir": "{data_dir}/logs"
     }
 }

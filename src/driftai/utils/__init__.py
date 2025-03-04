@@ -1,5 +1,10 @@
 from driftai.utils.path_manager import *
 from driftai.utils.file_io import (
-    read_json,
-    write_json
+    # for regular files
+    read_file,
+    write_file,
+
+    # for JSON files
+    read_json_file,
+    write_json_file
 )

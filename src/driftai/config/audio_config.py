@@ -1,8 +1,9 @@
 import pyaudio
 from driftai.utils import (
-    read_json,
+    read_json_file,
     get_internal_path
 )
+from driftai.config import get_config
 
 
 class RecorderConfig:
@@ -20,7 +21,7 @@ class RecorderConfig:
         self._config: dict = self.load_config()
 
     def load_config(self) -> dict:
-        _file_data: dict = read_json(self.CONFIG_FILE_PATH)
+        _file_data: dict = read_json_file(self.CONFIG_FILE_PATH)
         return _file_data['audio']['recorder']
     
     def reload_config(self) -> None:
