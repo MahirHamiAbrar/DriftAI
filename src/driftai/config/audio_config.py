@@ -3,7 +3,7 @@ from driftai.utils import (
     read_json_file,
     get_internal_path
 )
-from driftai.config import get_config
+# from driftai.config import get_config
 
 
 class RecorderConfig:
