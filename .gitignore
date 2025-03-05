@@ -11,3 +11,7 @@ wheels/
 
 # Log files
 *.log
+
+# audio files under `data/audio_recordings` directory
+audio_recordings/*.mp3
+audio_recordings/*.wav

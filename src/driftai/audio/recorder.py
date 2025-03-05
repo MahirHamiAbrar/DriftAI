@@ -1,5 +1,6 @@
 import os
 import wave
+import logging
 import pyaudio
 import threading
 
@@ -8,26 +9,26 @@ from pydub import AudioSegment
 from driftai.config import RecorderConfig
 
 
-class AudioRecorder:
-    def __init__(self, chunk_duration=2, output_dir="recordings") -> None:
+class AudioRecorder(RecorderConfig):
+    def __init__(
+        self,
+        chunk_duration: int = None
+    ) -> None:
         """
         Initialize the audio recorder.
         
         Args:
             chunk_duration (int): Duration of each audio chunk in seconds.
-            output_dir (str): Directory to save the audio chunks.
         """
-        self.chunk_duration = chunk_duration
-        self.output_dir = output_dir
+        RecorderConfig.__init__(self)
+
+        if chunk_duration:
+            self.chunk_duration = chunk_duration
+
+        # thread variables
         self.is_recording = False
         self.audio_thread = None
         self.stop_event = threading.Event()
-        
-        # Audio parameters
-        self.format = pyaudio.paInt16
-        self.channels = 2
-        self.rate = 44100
-        self.chunk_size = 1024
         
         # Create output directory if it doesn't exist
         if not os.path.exists(self.output_dir):
@@ -36,13 +37,13 @@ class AudioRecorder:
     def _record_audio(self) -> None:
         """Background thread function that records audio in chunks."""
         p = pyaudio.PyAudio()
-        stream = p.open(format=self.format,
+        stream = p.open(format=self.sampling_format,
                         channels=self.channels,
                         rate=self.rate,
                         input=True,
                         frames_per_buffer=self.chunk_size)
         
-        print("Recording started...")
+        logging.info("Recording started...")
         
         while not self.stop_event.is_set():
             frames = []
@@ -55,17 +56,16 @@ class AudioRecorder:
             
             if len(frames) > 0 and not self.stop_event.is_set():
                 # Save the recorded chunk
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                timestamp = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
                 wave_filename = os.path.join(self.output_dir, f"chunk_{timestamp}.wav")
                 mp3_filename = os.path.join(self.output_dir, f"chunk_{timestamp}.mp3")
                 
                 # Save as WAV first
-                wf = wave.open(wave_filename, 'wb')
-                wf.setnchannels(self.channels)
-                wf.setsampwidth(p.get_sample_size(self.format))
-                wf.setframerate(self.rate)
-                wf.writeframes(b''.join(frames))
-                wf.close()
+                with wave.open(wave_filename, 'wb') as wf:
+                    wf.setnchannels(self.channels)
+                    wf.setsampwidth(p.get_sample_size(self.sampling_format))
+                    wf.setframerate(self.rate)
+                    wf.writeframes(b''.join(frames))
                 
                 # Convert to MP3 using pydub
                 audio = AudioSegment.from_wav(wave_filename)
@@ -74,13 +74,13 @@ class AudioRecorder:
                 # Remove the temporary WAV file
                 os.remove(wave_filename)
                 
-                print(f"Saved chunk: {mp3_filename}")
+                logging.info(f"Saved chunk: {mp3_filename}")
         
         # Clean up
         stream.stop_stream()
         stream.close()
         p.terminate()
-        print("Recording stopped.")
+        logging.info("Recording stopped.")
     
     def start_recording(self) -> bool:
         """Start recording audio in a separate thread."""
@@ -109,40 +109,3 @@ class AudioRecorder:
             self.chunk_duration = duration
             return True
         return False
-
-def main() -> None:
-    chunk_duration = 5
-    try:
-        user_duration = input("Enter chunk duration in seconds (default is 2): ")
-        if user_duration.strip():
-            chunk_duration = float(user_duration)
-    except ValueError:
-        print("Invalid input. Using default 2 seconds.")
-    
-    recorder = AudioRecorder(chunk_duration=chunk_duration)
-    recorder.start_recording()
-    
-    print(f"Audio recording has started in the background with {chunk_duration} second chunks.")
-    print("Type 'stop' to stop recording.")
-    
-    try:
-        while True:
-            user_input = input("> ").strip().lower()
-            if user_input == "stop":
-                print("Stopping the recording...")
-                recorder.stop_recording()
-                break
-            elif user_input == "help":
-                print("Commands available:")
-                print("  stop - Stop recording and exit")
-                print("  help - Show this help message")
-            else:
-                print(f"Unknown command: {user_input}. Type 'help' for available commands.")
-    except KeyboardInterrupt:
-        print("\nInterrupted by user. Stopping recording...")
-        recorder.stop_recording()
-    
-    print("Program exited.")
-
-if __name__ == "__main__":
-    main()

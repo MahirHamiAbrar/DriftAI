@@ -6,7 +6,7 @@
             "channels": 2,
             "rate": 44100,
             "chunk_size": 1024,
-            "sampling_format": "i16",
+            "sampling_format": "i32",
             "available_sampling_formats": [
                 "i8", "i16", "i24", "i32", "f32"
             ],
@@ -14,6 +14,7 @@
             "available_recording_formats": [
                 "wav", "mp3"
             ],
+            "chunk_duration": 5,
             "output_dir": "{data_dir}/audio_recordings"
         }
     },
