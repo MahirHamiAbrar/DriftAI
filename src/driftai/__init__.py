@@ -7,11 +7,7 @@ from driftai.utils.logger import (
 # initialize the logging system
 init_logger(formatter=LogFormatters.DetailedFormatter)
 
-from driftai.tests import (
-    test_logger,
-    test_recorder,
-    test_config_subpath
-)
+from driftai.tests import *
 
 # from driftai.config.audio_config import AudioConfig
 
@@ -21,5 +17,7 @@ def main() -> None:
     # test_logger()
     # test_recorder()
 
-    from driftai.ui.mic_input_ui import run_main_app
-    run_main_app()
+    # from driftai.ui.mic_input_ui import run_main_app
+    # run_main_app()
+
+    test_floating_window()

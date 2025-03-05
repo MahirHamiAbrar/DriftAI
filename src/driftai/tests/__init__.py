@@ -9,3 +9,7 @@ from driftai.tests.logger_test import (
 from driftai.tests.config_test import (
     test_config_subpath
 )
+
+from driftai.tests.floating_window_test import (
+    test_floating_window
+)

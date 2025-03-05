@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>294</width>
+    <height>68</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#container_widget {
+	border-radius: 8px;
+	background-color: rgb(12, 12, 15);
+	background-color: #0E1013;
+}
+
+QPushButton {
+	color: #F8F9FA;
+	font: 12pt &quot;SF Pro Display&quot;;
+	border: 1px solid transparent;
+	border-radius: 8px;
+	background-color: rgb(24, 24, 26);
+	background-color: #17181B;
+}
+
+QPushButton:hover {
+	color: #DADCE0;
+	background-color: rgb(41, 41, 43);
+	background-color: #202124;
+}
+
+QPushButton:pressed {
+	color: #80868B;
+	background-color: rgb(56, 56, 58);
+	background-color: #282A2D;
+}
+
+/*
+QPushButton#quit_btn {
+	background-color: rgb(246, 97, 81);
+	background-color: #be2333;
+}
+
+QPushButton#quit_btn:hover {
+	background-color: rgb(192, 28, 40);
+	background-color: #c53947;
+}
+
+QPushButton#quit_btn:pressed {
+	color: rgb(154, 153, 150);
+	background-color: rgb(148, 44, 44);
+	background-color: #cb4f5c;
+}
+*/</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>25</height>
+    </size>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="spacing">
+     <number>4</number>
+    </property>
+    <property name="leftMargin">
+     <number>2</number>
+    </property>
+    <property name="topMargin">
+     <number>2</number>
+    </property>
+    <property name="rightMargin">
+     <number>2</number>
+    </property>
+    <property name="bottomMargin">
+     <number>2</number>
+    </property>
+    <item>
+     <widget class="QWidget" name="container_widget" native="true">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QPushButton" name="chat_btn">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>38</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Chat</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="speak_btn">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>38</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Speak</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="quit_btn">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>38</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Quit</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
