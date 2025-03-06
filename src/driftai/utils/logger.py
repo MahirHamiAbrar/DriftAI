@@ -12,7 +12,10 @@ class LogFormatters(Enum):
     DetailedFormatter = 1
 
 
-def init_logger(formatter: LogFormatters = LogFormatters.DetailedFormatter) -> None:
+def init_logger(
+    formatter: LogFormatters = LogFormatters.DetailedFormatter,
+    log_level = logging.INFO
+) -> None:
     """ Two options for formatter: 
         0 = 'regular', 
         1 = 'detailed' 
@@ -20,7 +23,7 @@ def init_logger(formatter: LogFormatters = LogFormatters.DetailedFormatter) -> N
     global _logger_config
     
     logging.basicConfig(
-        level=logging.INFO,
+        level=log_level,
         format=(
             _logger_config.REGULAR_FORMATTER
             if formatter == LogFormatters.RegularFormatter

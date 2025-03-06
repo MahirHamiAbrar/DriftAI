@@ -1,34 +1,27 @@
 import sys
-from PyQt6.QtCore import QPropertyAnimation
-from PyQt6.QtGui import *
-from PyQt6.QtCore import *
-from PyQt6.QtWidgets import *
-from PyQt6.uic.load_ui import loadUi
+import logging
 
+from PyQt6.QtGui import (
+    QIcon,
+    QPixmap
+)
+from PyQt6.QtCore import (
+    Qt,
+    QSize,
+    QPropertyAnimation
+)
+from PyQt6.QtWidgets import (
+    QWidget,
+    QPushButton,
+    QMainWindow,
+    QApplication
+)
+from PyQt6.uic.load_ui import loadUi
 from driftai.utils import (
     get_ui_xml_path,
     get_ui_icon_path
 )
 
-class Animator:
-    @staticmethod
-    def animate(
-        target,
-        property_name,
-        duration,
-        start_value,
-        end_value,
-        easing_curve=QEasingCurve.Type.Linear
-    ) -> QPropertyAnimation:
-
-        animation = QPropertyAnimation(target, property_name.encode())
-        animation.setDuration(duration)
-        animation.setStartValue(start_value)
-        animation.setEndValue(end_value)
-        animation.setEasingCurve(easing_curve)
-        animation.start()
-        
-        return animation
 
 class FloatingWindow(QMainWindow):
 
@@ -71,16 +64,23 @@ class FloatingWindow(QMainWindow):
 
         # calculate the screen appearance position
         self._appear_with_animation()
+
+        # create an info-log on startup
+        logging.info("Floating Window Launched")
     
     def _set_button_icons(self) -> None:
+        logging.debug('Setting button icons of floating window')
 
         # quit button icon
         self._quit_icon = QPixmap(get_ui_icon_path('shutdown-icon.png'))
         self.quit_btn.setText("")
         self.quit_btn.setIcon(QIcon(self._quit_icon))
         self.quit_btn.setIconSize(QSize(64, 64))
+
     
     def _appear_with_animation(self) -> None:
+        logging.debug('starting animation of floating window')
+
         # Get screen geometry
         screen_geometry = QApplication.primaryScreen().geometry()
         screen_width = screen_geometry.width()
@@ -101,6 +101,7 @@ class FloatingWindow(QMainWindow):
         self._animation.finished.connect(self._set_button_widths)
     
     def _set_button_widths(self) -> None:
+        logging.debug('Setting floating window button sizes')
         w40 = int(self.window_width * 0.42)
         w20 = int(self.window_width * 0.16)
         btn_h = int((self.window_height - 10) * 0.80)
@@ -112,11 +113,14 @@ class FloatingWindow(QMainWindow):
         self.speak_btn.setMinimumSize(w40, btn_h)
     
     def _exit_application(self) -> None:
-        self.close()
-        self.app.exit()
+        # create an info-log before quitting
+        logging.info('Closing the floating window and quitting application')
+
+        self.close()        # close window
+        self.app.exit()     # and quit application
         
     
-def test_floating_window():
+def test_run_floating_window():
     app = QApplication(sys.argv)
     window = FloatingWindow(app)
     window.show()

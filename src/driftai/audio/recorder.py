@@ -37,11 +37,13 @@ class AudioRecorder(RecorderConfig):
     def _record_audio(self) -> None:
         """Background thread function that records audio in chunks."""
         p = pyaudio.PyAudio()
-        stream = p.open(format=self.sampling_format,
-                        channels=self.channels,
-                        rate=self.rate,
-                        input=True,
-                        frames_per_buffer=self.chunk_size)
+        stream = p.open(
+            format=self.sampling_format,
+            channels=self.channels,
+            rate=self.rate,
+            input=True,
+            frames_per_buffer=self.chunk_size
+        )
         
         logging.info("Recording started...")
         

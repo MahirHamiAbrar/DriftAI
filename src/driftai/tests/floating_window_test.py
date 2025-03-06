@@ -1,1 +1,1 @@
-from driftai.ui.floating_window import test_floating_window
+from driftai.ui.floating_window import test_run_floating_window
