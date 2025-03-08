@@ -13,7 +13,8 @@ wheels/
 *.log
 
 # audio files under `data/audio_recordings` directory
-audio_recordings/*.mp3
-audio_recordings/*.wav
+audio_recordings/
 
 mic_input_ui.py
+
+experimentals/
