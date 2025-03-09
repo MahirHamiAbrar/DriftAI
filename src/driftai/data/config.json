@@ -16,8 +16,19 @@
             ],
             "chunk_duration": 5,
             "output_dir": "{data_dir}/audio_recordings"
+        },
+
+        "stt": {
+            "model": "turbo",
+            "device": "cuda",
+            "download_root": "/WindowsDrive/LLM/Whisper",
+            "default_download_root": "{data_dir}/stt_models",
+            "temperature": 0.8,
+            "word_timestamps": true,
+            "preload_in_memory": false
         }
     },
+
 
     "logging": {
         "log_dir": "{data_dir}/logs"
