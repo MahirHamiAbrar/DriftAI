@@ -24,7 +24,7 @@ def main() -> None:
     # from driftai.ui.mic_input_ui import run_main_app
     # run_main_app()
 
-    # test_run_floating_window()
+    test_run_floating_window()
     # run_audio_recorder_app()
 
     from driftai.ui.chat_widget import run_test_chat_widget
@@ -43,4 +43,4 @@ def main() -> None:
     # run_test_recorder_app()
 
     from driftai.ui import test_run_audio_input_widget
-    test_run_audio_input_widget()
+    # test_run_audio_input_widget()

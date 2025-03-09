@@ -10,5 +10,3 @@ from driftai.ui.floating_window import (
 from driftai.experimentals.audio_recorder_app import (
     run_audio_recorder_app
 )
-
-from .audio_input_widget import *

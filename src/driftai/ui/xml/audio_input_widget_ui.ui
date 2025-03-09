@@ -110,7 +110,7 @@ QPushButton:pressed {
          </size>
         </property>
         <property name="text">
-         <string>Speak</string>
+         <string>Click to Speak</string>
         </property>
        </widget>
       </item>

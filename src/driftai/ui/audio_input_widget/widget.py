@@ -14,7 +14,8 @@ class AudioInputWidget(QWidget):
 
     def __init__(
         self,
-        parent: QWidget | QMainWindow = None
+        parent: QWidget | QMainWindow = None,
+        activate: bool = True
     ) -> None:
         super().__init__(parent)
 
@@ -26,6 +27,9 @@ class AudioInputWidget(QWidget):
         self.setup_ui()
 
         # start the audio recorder
+        self._recorder.start()
+    
+    def activate(self) -> None:
         self._recorder.start()
     
     def setup_ui(self) -> None:
@@ -48,14 +52,16 @@ class AudioInputWidget(QWidget):
     def toggle_recording(self):
         if self._recorder.toggle_recording():
             # stopped recording
-            self.record_btn.setText("Speak")
+            self.record_btn.setText("Click to Speak")
             self._visualizer.set_recording_state(False)
+            self.record_btn.setStyleSheet('')
 
             # save the recording
             self._recorder.save_recording()
         else:
             # started recording
-            self.record_btn.setText("Done")
+            self.record_btn.setText("Stop Recording")
+            self.record_btn.setStyleSheet('background-color: rgba(255, 150, 0, 50); color: rgb(255, 150, 0);')
             self._visualizer.set_recording_state(True)
     
     def closeEvent(self, event) -> None:
