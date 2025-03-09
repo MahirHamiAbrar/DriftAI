@@ -1,7 +1,4 @@
-from driftai.config import (
-    get_config,
-    get_config_data_subpath
-)
+from driftai.config import get_config
 
 
 class STTConfig:
@@ -14,10 +11,15 @@ class STTConfig:
         # Recording parameter configuration
         self._config = get_config()['audio']['stt']
 
-        self.model: str = self._config.get('model', 'small')
+        # config for loading the model
+        self.model_name: str = self._config.get('model', 'small')
         self.device: str = self._config.get('device', 'cpu')
         self.default_download_root: str = self._config.get('default_download_root')
         self.download_root: str = self._config.get('download_root', self.default_download_root)
+        self.preload_in_memory: bool = self._config.get('preload_in_memory', False)
+
+        # config for transcription
+        self.verbose: bool | None = self._config.get('verbose', None)
         self.temperature: float = self._config.get('temperature', 0.7)
         self.word_timestamps: bool = self._config.get('word_timestamps', True)
-        self.preload_in_memory: bool = self._config.get('preload_in_memory', False)
+        self.clip_timestamps: bool = self._config.get('clip_timestamps', False)

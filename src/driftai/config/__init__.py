@@ -1,13 +1,9 @@
-from driftai.config.config_loader import (
+from .config_loader import (
     load_config,
     get_config,
     get_config_data_subpath
 )
 
-from driftai.config.logger_config import (
-    LoggerConfig
-)
-
-from driftai.config.audio_config import (
-    RecorderConfig
-)
+from .stt_config import STTConfig
+from .logger_config import LoggerConfig
+from .audio_config import RecorderConfig

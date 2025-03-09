@@ -19,13 +19,16 @@
         },
 
         "stt": {
-            "model": "turbo",
+            "model_name": "turbo",
             "device": "cuda",
+            "preload_in_memory": false,
             "download_root": "/WindowsDrive/LLM/Whisper",
             "default_download_root": "{data_dir}/stt_models",
+            
+            "verbose": null,
             "temperature": 0.8,
             "word_timestamps": true,
-            "preload_in_memory": false
+            "clip_timestamps": false
         }
     },
 
