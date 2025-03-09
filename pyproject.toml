@@ -9,7 +9,7 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "editables>=0.5",
-    "fastapi>=0.115.11",
+    "fastapi[standard]>=0.115.11",
     "hatchling>=1.27.0",
     "keyboard>=0.13.5",
     "librosa>=0.10.2.post1",
@@ -22,6 +22,7 @@ dependencies = [
     "pyopengl>=3.1.9",
     "pyqt6>=6.8.1",
     "setuptools>=76.0.0",
+    "uvicorn[standard]>=0.34.0",
     "whisperx>=3.3.1",
 ]
 

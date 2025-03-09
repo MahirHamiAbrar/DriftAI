@@ -27,6 +27,8 @@ class WhisperTranscriptor(STTConfig):
         return self._model_loaded
     
     def load_model(self) -> None:
+        """ NOTE: Loading may take some good amount of time depending on the hardware and model size. """
+
         # load the model
         self._model = whisper.load_model(
             name = self.model_name,
@@ -37,6 +39,10 @@ class WhisperTranscriptor(STTConfig):
 
         # set status to True
         self._model_loaded = True
+    
+    def unload_model(self) -> None:
+        self._model = None
+        self._model_loaded = False
     
     def transcribe(
         self,
@@ -64,6 +70,9 @@ class WhisperTranscriptor(STTConfig):
 
 def test_transcriptor() -> None:
     transcriptor = WhisperTranscriptor()
+    transcriptor.load_model()
     print(WhisperTranscriptor.get_available_models())
+    result = transcriptor.transcribe('audio.mp3')
+    print(result)
 
-# test_transcriptor()
+test_transcriptor()

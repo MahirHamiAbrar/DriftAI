@@ -1,3 +1,4 @@
+from typing import List
 from driftai.config import get_config
 
 
@@ -22,4 +23,4 @@ class STTConfig:
         self.verbose: bool | None = self._config.get('verbose', None)
         self.temperature: float = self._config.get('temperature', 0.7)
         self.word_timestamps: bool = self._config.get('word_timestamps', True)
-        self.clip_timestamps: bool = self._config.get('clip_timestamps', False)
+        self.clip_timestamps: str | List[float] = self._config.get('clip_timestamps', "0")
