@@ -14,6 +14,7 @@ from PyQt6.QtCore import (
 from PyQt6.QtWidgets import (
     QHBoxLayout,
     QWidget,
+    QLabel,
     QPushButton,
     QMainWindow,
     QApplication
@@ -30,6 +31,7 @@ from driftai.ui.audio_input_widget import AudioInputWidget
 class FloatingWindow(QMainWindow):
 
     # window widgets declaration for intellisense suggestions
+    title_label: QLabel
     quit_btn: QPushButton
     chat_btn: QPushButton
     speak_btn: QPushButton
@@ -47,6 +49,8 @@ class FloatingWindow(QMainWindow):
         # Window size
         self.window_width = 250
         self.window_height = 52
+
+        self.setMinimumHeight(self.window_height + 30)
 
         # screen position padding
         self.screen_pad_x = 40

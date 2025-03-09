@@ -11,7 +11,7 @@ from driftai.ui import Animator
 
 
 class ChatWidget(QWidget):
-    def __init__(self, parent = None):
+    def __init__(self, parent = None) -> None:
         super().__init__(parent)
 
         # hide the widget
@@ -50,7 +50,7 @@ class ChatWidget(QWidget):
     def setWindowOpacity(self, opacity):
         super().setWindowOpacity(opacity)    
     
-    opacity = pyqtProperty(float, windowOpacity, setWindowOpacity)
+    # opacity = pyqtProperty(float, windowOpacity, setWindowOpacity)
 
 
 def run_test_chat_widget() -> None:

@@ -24,6 +24,8 @@ class AudioVisualizerWidget(QWidget):
         self.is_recording = False
         self.audio_data = np.zeros(self.audio_chunk_size)
         self.visualizer_type = AudioVisualizerType.Linear
+
+        # self.set_data(np.random)
         
     def set_data(self, data) -> None:
         self.audio_data = data
