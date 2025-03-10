@@ -1,9 +1,11 @@
+# TODO: Add Exception Handling, what if received "unload_model" request twice in a row?
+
 import gc
 import uuid
 import torch
 import ctypes
 from fastapi import FastAPI, BackgroundTasks
-from driftai.stt.data_models import (\
+from driftai.stt.data_models import (
     AudioFileObject,
     ExceptionObject,
     ModelStatusCheck,
