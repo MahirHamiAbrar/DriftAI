@@ -7,7 +7,7 @@ from driftai.utils.logger import (
 # initialize the logging system
 init_logger(
     formatter=LogFormatters.DetailedFormatter,
-    log_level=logging.DEBUG
+    log_level=logging.INFO
 )
 
 from driftai.tests import *

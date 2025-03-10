@@ -1,6 +1,7 @@
 import whisper
 import logging
 
+from enum import Enum
 from torch import Tensor
 from numpy import ndarray
 
@@ -8,7 +9,18 @@ from typing import List, Literal
 from driftai.config import STTConfig
 
 
-class WhisperTranscriptor(STTConfig):
+class TranscriptionStatus(Enum):
+    JobQueued = 200
+
+    ModelNotLoaded = 0
+    ModelLoading = 1
+    ModelLoaded = 2
+
+    TranscriptionProcessing = 10
+    TranscriptionComplete = 11
+
+
+class AudioTranscriptor(STTConfig):
     
     @staticmethod
     def get_available_models() -> List[str]:
@@ -18,16 +30,18 @@ class WhisperTranscriptor(STTConfig):
         STTConfig.__init__(self)
 
         # 'True' when the model is being loaded
-        self._model_loaded: bool = False
+        self._model_status = TranscriptionStatus.ModelNotLoaded
 
         # model set to None
         self._model: whisper.Whisper = None
     
-    def is_model_loaded(self) -> bool:
-        return self._model_loaded
+    def get_model_status(self) -> TranscriptionStatus:
+        return self._model_status
     
     def load_model(self) -> None:
         """ NOTE: Loading may take some good amount of time depending on the hardware and model size. """
+
+        self._model_status = TranscriptionStatus.ModelLoading
 
         # load the model
         self._model = whisper.load_model(
@@ -38,11 +52,11 @@ class WhisperTranscriptor(STTConfig):
         )
 
         # set status to True
-        self._model_loaded = True
+        self._model_status = TranscriptionStatus.ModelLoaded
     
     def unload_model(self) -> None:
         self._model = None
-        self._model_loaded = False
+        self._model_status = TranscriptionStatus.ModelNotLoaded
     
     def transcribe(
         self,
@@ -51,7 +65,7 @@ class WhisperTranscriptor(STTConfig):
     ) -> dict[str, str | list] | Literal[-1]:
         
         # return if model not already loaded
-        if not self._model_loaded:
+        if self._model_status == TranscriptionStatus.ModelNotLoaded:
             logging.error('please load the model first')
             return -1
         
@@ -69,10 +83,10 @@ class WhisperTranscriptor(STTConfig):
 
 
 def test_transcriptor() -> None:
-    transcriptor = WhisperTranscriptor()
+    transcriptor = AudioTranscriptor()
     transcriptor.load_model()
-    print(WhisperTranscriptor.get_available_models())
+    print(AudioTranscriptor.get_available_models())
     result = transcriptor.transcribe('audio.mp3')
     print(result)
 
-test_transcriptor()
+# test_transcriptor()

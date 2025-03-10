@@ -16,5 +16,6 @@ wheels/
 audio_recordings/
 
 mic_input_ui.py
+stt_server_old.py
 
 experimentals/
