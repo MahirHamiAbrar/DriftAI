@@ -24,3 +24,7 @@ class STTConfig:
         self.temperature: float = self._config.get('temperature', 0.7)
         self.word_timestamps: bool = self._config.get('word_timestamps', True)
         self.clip_timestamps: str | List[float] = self._config.get('clip_timestamps', "0")
+
+        # server host & port
+        self.host: str = self._config.get('host', 'http://127.0.0.1')
+        self.post: int = self._config.get('port', 8000)

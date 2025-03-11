@@ -1,18 +1,18 @@
 from pydantic import BaseModel
-from driftai.stt import TranscriptionStatus
+from driftai.stt import JobStatus
 
 
 class ExceptionObject(BaseModel):
-    error: Exception
+    error: str
 
 class AudioFileObject(BaseModel):
     audio_file: str
 
 class ModelStatusCheck(BaseModel):
-    status: TranscriptionStatus
+    status: JobStatus
 
 class TranscriptionStatusCheck(BaseModel):
     job_id: str
-    status: TranscriptionStatus
+    status: JobStatus
     audio_file: str
     result: dict | None = None

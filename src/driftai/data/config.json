@@ -28,7 +28,10 @@
             "verbose": null,
             "temperature": 0.8,
             "word_timestamps": true,
-            "clip_timestamps": "0"
+            "clip_timestamps": "0",
+
+            "host": "http://127.0.0.1",
+            "port": 8000
         }
     },
 

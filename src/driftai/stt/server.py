@@ -11,7 +11,7 @@ from driftai.stt.data_models import (
     ModelStatusCheck,
     TranscriptionStatusCheck
 )
-from driftai.stt import AudioTranscriptor, TranscriptionStatus
+from driftai.stt import AudioTranscriptor, JobStatus
 
 
 # create FastAPI app
@@ -22,7 +22,7 @@ job_status: dict[str, TranscriptionStatusCheck] = {}
 
 # model loading status
 model_status = ModelStatusCheck(
-    status = TranscriptionStatus.ModelNotLoaded
+    status = JobStatus.ModelNotLoaded
 )
 
 
@@ -31,14 +31,14 @@ def audio_transcriptor_load_task() -> None:
     global audio_transcriptor, model_status
 
     # change status to "model loading"
-    model_status.status = TranscriptionStatus.ModelLoading
+    model_status.status = JobStatus.ModelLoading
 
     # load the model
     audio_transcriptor = AudioTranscriptor()
     audio_transcriptor.load_model()
 
     # change status to "model loaded"
-    model_status.status = TranscriptionStatus.ModelLoaded
+    model_status.status = JobStatus.ModelLoaded
 
 
 # audio transcription background task
@@ -49,14 +49,14 @@ def transcribe_audio_task(job: TranscriptionStatusCheck) -> None:
     job_id = job.job_id
 
     # set transcription status to "processing"
-    job_status[job_id].status = TranscriptionStatus.TranscriptionProcessing
+    job_status[job_id].status = JobStatus.TranscriptionProcessing
 
     # transcribe the audio
     result = audio_transcriptor.transcribe(audio=job.audio_file)
 
     # set transcription status to "complete"
     job_status[job_id].result = result
-    job_status[job_id].status = TranscriptionStatus.TranscriptionComplete
+    job_status[job_id].status = JobStatus.TranscriptionComplete
 
 
 # free memory
@@ -82,7 +82,7 @@ def load_model(bg_tasks: BackgroundTasks) -> ModelStatusCheck:
     global model_status
 
     # set status to "job queued"
-    model_status.status = TranscriptionStatus.JobQueued
+    model_status.status = JobStatus.JobQueued
 
     # start the background model loading task
     bg_tasks.add_task(audio_transcriptor_load_task)
@@ -98,7 +98,7 @@ def transcribe_audio(audio_file_obj: AudioFileObject, bg_tasks: BackgroundTasks)
     # set job status
     job_status[job_id] = TranscriptionStatusCheck(
         job_id = job_id,
-        status = TranscriptionStatus.JobQueued,
+        status = JobStatus.JobQueued,
         audio_file = audio_file_obj.audio_file
     )
 
@@ -127,7 +127,7 @@ def unload_model() -> ModelStatusCheck:
     gc.collect()
     trim_memory()
 
-    model_status.status = TranscriptionStatus.ModelNotLoaded
+    model_status.status = JobStatus.ModelNotLoaded
     return model_status
 
 

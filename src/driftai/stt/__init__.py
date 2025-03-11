@@ -1,5 +1,5 @@
 from .transcription import (
-    TranscriptionStatus,
+    JobStatus,
     AudioTranscriptor,
     test_transcriptor
 )

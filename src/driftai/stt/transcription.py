@@ -9,7 +9,7 @@ from typing import List, Literal
 from driftai.config import STTConfig
 
 
-class TranscriptionStatus(Enum):
+class JobStatus(Enum):
     JobQueued = 200
 
     ModelNotLoaded = 0
@@ -30,18 +30,18 @@ class AudioTranscriptor(STTConfig):
         STTConfig.__init__(self)
 
         # 'True' when the model is being loaded
-        self._model_status = TranscriptionStatus.ModelNotLoaded
+        self._model_status = JobStatus.ModelNotLoaded
 
         # model set to None
         self._model: whisper.Whisper = None
     
-    def get_model_status(self) -> TranscriptionStatus:
+    def get_model_status(self) -> JobStatus:
         return self._model_status
     
     def load_model(self) -> None:
         """ NOTE: Loading may take some good amount of time depending on the hardware and model size. """
 
-        self._model_status = TranscriptionStatus.ModelLoading
+        self._model_status = JobStatus.ModelLoading
 
         # load the model
         self._model = whisper.load_model(
@@ -52,11 +52,11 @@ class AudioTranscriptor(STTConfig):
         )
 
         # set status to True
-        self._model_status = TranscriptionStatus.ModelLoaded
+        self._model_status = JobStatus.ModelLoaded
     
     def unload_model(self) -> None:
         self._model = None
-        self._model_status = TranscriptionStatus.ModelNotLoaded
+        self._model_status = JobStatus.ModelNotLoaded
     
     def transcribe(
         self,
@@ -65,7 +65,7 @@ class AudioTranscriptor(STTConfig):
     ) -> dict[str, str | list] | Literal[-1]:
         
         # return if model not already loaded
-        if self._model_status == TranscriptionStatus.ModelNotLoaded:
+        if self._model_status == JobStatus.ModelNotLoaded:
             logging.error('please load the model first')
             return -1
         
