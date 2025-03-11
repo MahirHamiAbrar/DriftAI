@@ -4,6 +4,12 @@ An LLM powered Open Source AI assistant designed to speed up day-to-day tasks of
 # Running DriftAI
 Somewhat MVP is ready. Follow these steps to run this on Linux:
 
+## `CAUTION!`
+`DriftAI` currently runs local `LLM`s on the host machine. That's why the minimum hardware requirements must be met to run this project, which is as follows:
+ - 
+ - Mandatory: 8GB RAM (Recommended 16GB)
+ - Recommended: At least 4GB GPU VRAM (NVIDIA GPU)
+
 ## Installation of uv package manager
 First we need to install the [uv package manager](https://astral.sh/blog/uv):
 
@@ -41,11 +47,15 @@ uv sync
 
 Running `uv sync` command installs all the dependencies needed to run the project, and sets up the development environment. Now we are ready to launch DriftAI!
 
-## Launch DriftAI
-To launch the DriftAI, simply run the below command:
+## Launching DriftAI
+To launch DriftAI, simply run the below command:
 ```bash
 sh run.sh
 ```
+
+Currently this does the below two things:
+ * Launches the audio recorder floating window.
+ * Starts up the Speech-to-Text AI local-server on the host computer.
 
 Voila! You should have a window at the bottom-left corner of your screen like this:
 
