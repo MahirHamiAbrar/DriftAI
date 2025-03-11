@@ -4,13 +4,8 @@ An LLM powered Open Source AI assistant designed to speed up day-to-day tasks of
 # Running DriftAI
 Somewhat MVP is ready. Follow these steps to run this on Linux:
 
-First clone the repository:
-```bash
-git clone https://github.com/MahirHamiAbrar/DriftAI.git
-```
-
 ## Installation of uv package manager
-First you need to install [uv package manager](https://astral.sh/blog/uv):
+First we need to install the [uv package manager](https://astral.sh/blog/uv):
 
 ### Using `curl` for instalation:
 ```bash
@@ -23,16 +18,22 @@ wget -qO- https://astral.sh/uv/install.sh | sh
 ```
 
 ### OR, Using `pip` for installation:
-If you have `python` and `pip` installed on your system, you can just use `pip`.
+If `python` and `pip` both are installed on the system (which is the case with most linux distributions), just use `pip` to install `uv`:
 ```bash
 pip install uv
 ```
 
-You can find mode details about installation on their [official website.](https://docs.astral.sh/uv/getting-started/installation/)
+More details regarding installation can be found on `uv`'s [official website.](https://docs.astral.sh/uv/getting-started/installation/)
 
+
+## Cloning Github Repo
+Next step is cloning this repository using:
+```bash
+git clone https://github.com/MahirHamiAbrar/DriftAI.git
+```
 
 ## Project Setup
-Once you have `uv` installed on your system, you can now setup the system:
+Once `uv` is installed on the system, we now can use it to setup the development environment:
 ```bash
 cd DriftAI
 uv sync
