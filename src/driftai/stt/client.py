@@ -30,7 +30,7 @@ class STTClient(STTConfig):
         self._ep_transcription_status: str = urljoin(self._base_url, '/stt/transcription_status/')
     
     def get_server_url(self) -> str:
-        return self._url
+        return self._base_url
     
     def is_model_loaded(self) -> bool:
         return self._model_loaded
@@ -57,8 +57,58 @@ class STTClient(STTConfig):
 
         return res.json()
     
-    def get_transcription_status(self, job_id: str):
-        res = requests.post(urljoin(self._ep_transcribe, str(job_id)))
-        return res.json()
+    def get_transcription_status(self, job_id: str) -> dict[str, Any]:
+        res = requests.get(urljoin(self._ep_transcription_status, str(job_id)))
+
+        try:
+            res = res.json()
+        except Exception as e:
+            print(f"Error: {e}")
+        
+        return res
 
 
+def test_client() -> None:
+    client = STTClient()
+    
+    res = client.load_model()
+    sts = res['status']
+    sts_cnged = True
+
+    while sts != 2:
+
+        if res['status'] != sts:
+            sts_cnged = True
+            sts = res['status']
+        
+        if sts_cnged:
+            if sts == 0:
+                print('model not loaded')
+            elif sts == 1:
+                print('model loading...')
+            
+            sts_cnged = False
+        
+        res = client.get_model_status()
+    
+    print('model loaded.')
+
+    audio_file = input('Enter Audio File Path (mp3 or wav): ')
+
+    res = client.transcribe(audio_file)
+    sts = res['status']
+    sts_cnged = True
+
+    print(f'processing audio...\n{res = }')
+    while sts != 11:
+        res = client.get_transcription_status(res['job_id'])
+        sts = res['status']
+    
+    print('PROCESSING COMPLETE')
+
+    print(f"\n\n{res = }")
+
+    print('\n\nUnloading Model...')
+    client.unload_model()
+
+# test_client()

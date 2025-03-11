@@ -27,4 +27,4 @@ class STTConfig:
 
         # server host & port
         self.host: str = self._config.get('host', 'http://127.0.0.1')
-        self.post: int = self._config.get('port', 8000)
+        self.port: int = self._config.get('port', 8000)
