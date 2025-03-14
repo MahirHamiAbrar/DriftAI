@@ -9,7 +9,10 @@ from PyQt6.QtCore import (
     Qt,
     QRect,
     QSize,
-    QPropertyAnimation
+    QPropertyAnimation,
+
+    QThread,
+    pyqtSignal
 )
 from PyQt6.QtWidgets import (
     QHBoxLayout,
@@ -25,7 +28,43 @@ from driftai.utils import (
     get_ui_icon_path
 )
 
+from driftai.stt.client import STTClient
 from driftai.ui.audio_input_widget import AudioInputWidget
+
+
+class STTClientThread(QThread):
+
+    # send server shutdown signal here
+    shutdownServer = pyqtSignal()
+    # will emit when server shutdown is successful
+    serverShutdownSucessful = pyqtSignal()
+
+
+    def __init__(self) -> None:
+        QThread.__init__(self)
+
+        # Speech-to-Text Client Object
+        self._client = STTClient()
+
+        # status
+        self._shutdown_in_progress: bool = False
+
+        # connections
+        self.shutdownServer.connect(self._shutdown_server)
+    
+    def _shutdown_server(self) -> None:
+        # self._client.unload_model()
+        self._client.shutdown_server()
+
+    def run(self) -> None:
+
+        while True:
+            
+            if self._shutdown_in_progress:
+                if not self._client.is_server_running():
+                    self._shutdown_in_progress = False
+                    self.serverShutdownSucessful.emit()
+                    break
 
 
 class FloatingWindow(QMainWindow):
@@ -60,6 +99,12 @@ class FloatingWindow(QMainWindow):
         self._is_expanded = False
         self._expansion_offset = 200
         self._expansion_anim_duration = 300
+
+        self._stt_client_thread = STTClientThread()
+        self._stt_client_thread.serverShutdownSucessful.connect(
+            self._exit_application
+        )
+        self._stt_client_thread.start()
 
         # setup and launch the UI
         self.setup_ui()
@@ -97,8 +142,12 @@ class FloatingWindow(QMainWindow):
 
         self.inner_container_widget.setMaximumHeight(self.window_height)
 
+        def quit_btn_task():
+            self._stt_client_thread.shutdownServer.emit()
+            self._exit_application()
+
         # define button click events
-        self.quit_btn.clicked.connect(self._exit_application)
+        self.quit_btn.clicked.connect(quit_btn_task)
         self.speak_btn.clicked.connect(self._expand_or_collapse)
 
         self.audio_input_container_widget.hide()

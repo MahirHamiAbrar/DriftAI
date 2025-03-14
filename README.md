@@ -63,7 +63,7 @@ Minimized Floating Window             |  Expanded Floating Window
 :-------------------------:|:-------------------------:
 ![](images/driftai_minimized_floating_window.png)  |  ![](images/driftai_expanded_floating_window.png)
 
-The floating window will expand when the `Speak` button is pressed. Presing `Speak` button again will collapse the expanded window. 
+The floating window will expand when the `Speak` button is pressed. Pressing `Speak` button again will collapse the expanded window. 
 
 When `Click to Speak` is pressed, voice recording starts. 
 

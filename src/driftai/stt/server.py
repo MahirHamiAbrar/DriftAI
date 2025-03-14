@@ -1,10 +1,15 @@
 # TODO: Add Exception Handling, what if received "unload_model" request twice in a row?
 
+import os
 import gc
+import sys
 import uuid
 import torch
 import ctypes
-from fastapi import FastAPI, BackgroundTasks
+import signal
+import uvicorn
+
+from fastapi import FastAPI, BackgroundTasks, Response
 from driftai.stt.data_models import (
     AudioFileObject,
     ExceptionObject,
@@ -71,6 +76,11 @@ def trim_memory() -> int:
 
 
 
+@app.get('/stt/server_status')
+def get_server_status() -> dict[str, str]:
+    return { 'status': 'running' }
+
+
 @app.get('/stt/model_status')
 def check_model_status() -> ModelStatusCheck:
     global model_status
@@ -130,4 +140,19 @@ def unload_model() -> ModelStatusCheck:
     model_status.status = JobStatus.ModelNotLoaded
     return model_status
 
+
+@app.post('/stt/shutdown_server')
+def shutdown_server() -> dict[str, str]:
+    os.kill(os.getpid(), signal.SIGTERM)
+    # return Response(status_code=200, content={
+    #     'status': "Server Shutting Down..."
+    # }.__str__())
+    return { 'status': 'Shutdown Server Successful' }
+
+# app.add_api_route('/stt/shutdown_server', shutdown_server, methods=['POST'])
+
+def run_uvicorn_server():
+    uvicorn.run(app, host='0.0.0.0', port=8000)
+
+run_uvicorn_server()
 

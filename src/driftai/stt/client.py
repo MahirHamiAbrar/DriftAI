@@ -23,14 +23,23 @@ class STTClient(STTConfig):
         self._model_loaded: bool = False
 
         # declare the endpoints
+        self._ep_server_status: str = urljoin(self._base_url, '/stt/server_status/')
         self._ep_model_load: str = urljoin(self._base_url, '/stt/load_model/')
         self._ep_model_status: str = urljoin(self._base_url, '/stt/model_status/')
         self._ep_model_unload: str = urljoin(self._base_url, '/stt/unload_model/')
         self._ep_transcribe: str = urljoin(self._base_url, '/stt/transcribe/')
         self._ep_transcription_status: str = urljoin(self._base_url, '/stt/transcription_status/')
+        self._ep_server_shutdown: str = urljoin(self._base_url, '/stt/shutdown_server/')
     
     def get_server_url(self) -> str:
         return self._base_url
+    
+    def is_server_running(self) -> bool:
+        try:
+            res = requests.get(self._ep_server_status)
+        except requests.exceptions.ConnectionError:
+            return False
+        return True
     
     def is_model_loaded(self) -> bool:
         return self._model_loaded
@@ -45,6 +54,10 @@ class STTClient(STTConfig):
     
     def unload_model(self):
         res = requests.post(self._ep_model_unload)
+        return res.json()
+    
+    def shutdown_server(self) -> None:
+        res = requests.post(self._ep_server_shutdown)
         return res.json()
     
     def transcribe(self, audio_file_path: str)-> dict[str, Any]:
@@ -70,6 +83,13 @@ class STTClient(STTConfig):
 
 def test_client() -> None:
     client = STTClient()
+
+    is_server_alive = client.is_server_running()
+    print(f"{is_server_alive = }")
+    
+    # quit if server is not running
+    if not is_server_alive:
+        return
     
     res = client.load_model()
     sts = res['status']

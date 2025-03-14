@@ -7,6 +7,5 @@ Log files have a format like this:
         `dd-mm-yyyy.log`
     
     - Message Format: 
-        REGULAR: `dd-mm-yyyy:hh:mm:ss:ms [LOG-LEVEL] [filename:module:funcname:lineno]: log message`
-
-        DETAILED: `dd-mm-yyyy:hh:mm:ss:ms [LOG-LEVEL] [filename:lineno]: log message`
+        REGULAR: `dd-mm-yyyy:hh:mm:ss:ms [LOG-LEVEL] [filename:lineno]: log message`
+        DETAILED: `dd-mm-yyyy:hh:mm:ss:ms [LOG-LEVEL] [filename:module:funcname:lineno]: log message`
