@@ -9,18 +9,20 @@ import ctypes
 import signal
 import uvicorn
 
-from fastapi import FastAPI, BackgroundTasks, Response
+from fastapi import FastAPI, BackgroundTasks
 from driftai.stt.data_models import (
     AudioFileObject,
     ExceptionObject,
     ModelStatusCheck,
     TranscriptionStatusCheck
 )
+from driftai.config import STTConfig
 from driftai.stt import AudioTranscriptor, JobStatus
 
 
 # create FastAPI app
 app = FastAPI()
+config = STTConfig()
 
 # global dictionary to save job status
 job_status: dict[str, TranscriptionStatusCheck] = {}
@@ -152,7 +154,11 @@ def shutdown_server() -> dict[str, str]:
 # app.add_api_route('/stt/shutdown_server', shutdown_server, methods=['POST'])
 
 def run_uvicorn_server():
-    uvicorn.run(app, host='0.0.0.0', port=8000)
+    uvicorn.run(
+        app,
+        host=config.host,
+        port=config.port,
+        use_colors=True
+    )
 
 run_uvicorn_server()
-
