@@ -1,23 +1,12 @@
 import whisper
 import logging
 
-from enum import Enum
 from torch import Tensor
 from numpy import ndarray
 
 from typing import List, Literal
 from driftai.config import STTConfig
-
-
-class JobStatus(Enum):
-    JobQueued = 200
-
-    ModelNotLoaded = 0
-    ModelLoading = 1
-    ModelLoaded = 2
-
-    TranscriptionProcessing = 10
-    TranscriptionComplete = 11
+from driftai.models.status import ModelStatus
 
 
 class AudioTranscriptor(STTConfig):
@@ -30,18 +19,18 @@ class AudioTranscriptor(STTConfig):
         STTConfig.__init__(self)
 
         # 'True' when the model is being loaded
-        self._model_status = JobStatus.ModelNotLoaded
+        self._model_status = ModelStatus.NotLoaded
 
         # model set to None
         self._model: whisper.Whisper = None
     
-    def get_model_status(self) -> JobStatus:
+    def get_model_status(self) -> ModelStatus:
         return self._model_status
     
     def load_model(self) -> None:
         """ NOTE: Loading may take some good amount of time depending on the hardware and model size. """
 
-        self._model_status = JobStatus.ModelLoading
+        self._model_status = ModelStatus.Loading
 
         # load the model
         self._model = whisper.load_model(
@@ -52,11 +41,11 @@ class AudioTranscriptor(STTConfig):
         )
 
         # set status to True
-        self._model_status = JobStatus.ModelLoaded
+        self._model_status = ModelStatus.Loaded
     
     def unload_model(self) -> None:
         self._model = None
-        self._model_status = JobStatus.ModelNotLoaded
+        self._model_status = ModelStatus.NotLoaded
     
     def transcribe(
         self,
@@ -65,7 +54,7 @@ class AudioTranscriptor(STTConfig):
     ) -> dict[str, str | list] | Literal[-1]:
         
         # return if model not already loaded
-        if self._model_status == JobStatus.ModelNotLoaded:
+        if self._model_status == ModelStatus.NotLoaded:
             logging.error('please load the model first')
             return -1
         
@@ -83,6 +72,8 @@ class AudioTranscriptor(STTConfig):
 
 
 def test_transcriptor() -> None:
+    """ A test function to test the AudioTranscriptor() Class """
+
     transcriptor = AudioTranscriptor()
     transcriptor.load_model()
     print(AudioTranscriptor.get_available_models())
