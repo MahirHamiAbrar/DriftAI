@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from driftai.stt import JobStatus
+from driftai.models.status import ModelStatus
 
 
 class ExceptionObject(BaseModel):
@@ -9,10 +9,10 @@ class AudioFileObject(BaseModel):
     audio_file: str
 
 class ModelStatusCheck(BaseModel):
-    status: JobStatus
+    status: ModelStatus
 
 class TranscriptionStatusCheck(BaseModel):
     job_id: str
-    status: JobStatus
+    status: ModelStatus
     audio_file: str
     result: dict | None = None
