@@ -1,3 +1,4 @@
+import os
 import logging
 from driftai.utils.logger import (
     init_logger,
@@ -9,6 +10,9 @@ init_logger(
     formatter=LogFormatters.DetailedFormatter,
     log_level=logging.INFO
 )
+
+from driftai.config import get_config_data_subpath
+os.environ['HF_HOME'] = get_config_data_subpath(keys=['hf_home'])
 
 from driftai.tests import *
 from driftai.ui import run_audio_recorder_app
@@ -24,7 +28,7 @@ def main() -> None:
     # from driftai.ui.mic_input_ui import run_main_app
     # run_main_app()
 
-    test_run_floating_window()
+    # test_run_floating_window()
     # run_audio_recorder_app()
 
     from driftai.ui.chat_widget import run_test_chat_widget
@@ -42,5 +46,9 @@ def main() -> None:
     from driftai.experimentals.test_recorder_app import run_test_recorder_app
     # run_test_recorder_app()
 
-    from driftai.ui import test_run_audio_input_widget
+    # from driftai.ui import test_run_audio_input_widget
     # test_run_audio_input_widget()
+
+    from driftai.models.text2speech import test_speech_engine
+    test_speech_engine()
+

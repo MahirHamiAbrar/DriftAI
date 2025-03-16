@@ -28,7 +28,7 @@ from driftai.utils import (
     get_ui_icon_path
 )
 
-from driftai.stt.client import STTClient
+from driftai.client.client import STTClient
 from driftai.ui.audio_input_widget import AudioInputWidget
 
 
