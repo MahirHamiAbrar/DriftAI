@@ -19,4 +19,6 @@ mic_input_ui.py
 stt_server_old.py
 
 **/data/models/hf_hub/
+**/data/models/tts/
+**/data/models/stt/
 experimentals/

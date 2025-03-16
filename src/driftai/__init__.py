@@ -11,9 +11,6 @@ init_logger(
     log_level=logging.INFO
 )
 
-from driftai.config import get_config_data_subpath
-os.environ['HF_HOME'] = get_config_data_subpath(keys=['hf_home'])
-
 from driftai.tests import *
 from driftai.ui import run_audio_recorder_app
 
@@ -49,6 +46,6 @@ def main() -> None:
     # from driftai.ui import test_run_audio_input_widget
     # test_run_audio_input_widget()
 
-    from driftai.models.text2speech import test_speech_engine
-    test_speech_engine()
+    from driftai.tests.speech_engine_test import test_speech_engine
+    test_speech_engine("this is a speech engine test")
 
