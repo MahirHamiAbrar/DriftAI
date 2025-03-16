@@ -21,6 +21,12 @@ class TTSConfig:
         self.local_dir: str = get_config_data_subpath(
             keys=['audio', 'tts', 'local_dir']
         )
+        self.output_dir: str = get_config_data_subpath(
+            keys=['audio', 'tts', 'output_dir']
+        )
+
+        self.output_sample_rate: int = self._config.get('output_sample_rate', 24000)
+
         self.model_name: str = self._config.get("model_name", "hexgrad/Kokoro-82M")
         self.lang_code: str = self._config.get("lang_code", 'a')
 

@@ -47,5 +47,5 @@ def main() -> None:
     # test_run_audio_input_widget()
 
     from driftai.tests.speech_engine_test import test_speech_engine
-    test_speech_engine("this is a speech engine test")
+    test_speech_engine("This is a speech engine test. And the speech engine seems to be working pretty well!")
 

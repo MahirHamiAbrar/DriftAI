@@ -37,6 +37,9 @@
         "tts": {
             "cache_dir": "{data_dir}/models/hf_hub",
             "local_dir": "{data_dir}/models/tts",
+            "output_dir": "{data_dir}/generated_speech",
+
+            "output_sample_rate": 24000,
             
             "model_name": "hexgrad/Kokoro-82M",
             "lang_code": "a",
